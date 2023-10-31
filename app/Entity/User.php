@@ -73,6 +73,7 @@ class User{
     $fields = "id, name, user_type";
     $where = "name = '{$this->name}' AND password = '{$this->password}'";
     $data = $obDatabase->select($where, null, null, $fields);
+    $data = $data[0];
     
     if($data['id']){
       session_start();
@@ -84,4 +85,5 @@ class User{
       return false; // Falha no login
     }
   }
+  
 }

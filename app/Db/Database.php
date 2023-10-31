@@ -119,7 +119,7 @@ class Database{
 
     //EXECUTA A QUERY
     $result = $this->execute($query);
-    $data = $result->fetch(PDO::FETCH_ASSOC);
+    $data = $result->fetchAll(PDO::FETCH_ASSOC);
     return $data;
 
   }
@@ -133,15 +133,12 @@ class Database{
   public function update($where,$values){
     //DADOS DA QUERY
     $fields = array_keys($values);
-
     //MONTA A QUERY
     $query = 'UPDATE '.$this->table.' SET '.implode('=?,',$fields).'=? WHERE '.$where;
-
     //EXECUTAR A QUERY
     $this->execute($query,array_values($values));
-
     //RETORNA SUCESSO
-    return true;
+    return "success";
   }
 
   /**

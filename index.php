@@ -1,13 +1,33 @@
 <?php
-    session_start();
-    
-    include __DIR__ . '/includes/header.php';
+require __DIR__ . '/vendor/autoload.php';
 
-    use App\Entity\User;
+use App\Entity\Ticket;
 
-    if(!isset($_SESSION['id_usuario'])){
-        header('location: loginRegister.php');
+session_start();
+
+include __DIR__ . '/includes/header.php';
+
+if (!isset($_SESSION['id_usuario'])) {
+    header('location: loginRegister.php');
+}else{
+    $status = $_GET['status'];
+    if($status){
+        if ($status == 'success' && $_SESSION['type_usuario'] == "superadmin" || $_SESSION['type_usuario'] == "responsável") {
+            $tickets = new Ticket;
+            $ticketData = $tickets->getAllTicketsAdmin();
+            $_SESSION['AllTicketsAdmin'] = $ticketData;
+        }else{
+            $tickets = new Ticket;
+            $ticketData = $ticket->getAllTicketsByIdPeople();
+            $_SESSION['AllTicketsAdmin'] = $ticketData;
+        }
+        
     }
+}
 
-    //include __DIR__ . '/includes/listagem.php';
-    include __DIR__ . '/includes/footer.php';
+
+
+include 'listagem.php';
+
+include __DIR__ . '/includes/footer.php';
+?>

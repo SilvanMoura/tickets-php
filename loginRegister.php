@@ -2,6 +2,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use App\Entity\User;
+use App\Entity\Ticket;
 
 if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])) {
     $user = new User();
@@ -19,10 +20,24 @@ if(isset($_POST['name']) && isset($_POST['password']) && !isset($_POST['email'])
     $user->name = $_POST['name'];
     $user->password = $_POST['password'];
     $user->login(); 
+
+    $ticket = new Ticket();
+    $ticket->id = $_SESSION['id_usuario'];
+    $ticket->name = $_SESSION['name_usuario'];
+    $ticket->userType = $_SESSION['type_usuario'];
+
+    // Obtém os tickets para o usuário administrador
+    if($_SESSION['type_usuario'] == 'superadmin'){
+        $tickets = $ticket->getAllTicketsAdmin();
+    }else{
+        $tickets = $ticket->getAllTicketsByIdPeople();
+    }
     
+    session_start();
+    $_SESSION['AllTicketsAdmin'] = $tickets;
+
     header('location: index.php');
 }
-    include __DIR__ . '/includes/header.php';
 ?>  
 
 <div class="container mt-5">
@@ -86,7 +101,3 @@ if(isset($_POST['name']) && isset($_POST['password']) && !isset($_POST['email'])
         document.getElementById('registerHeader').style.display = 'none';
     }
 </script>
-
-<?php
-    include __DIR__ . '/includes/footer.php';
-?>
