@@ -54,7 +54,7 @@
 <div class="navbar">
     <ul>
         <li><a href="#">Criar novos usuários</a></li>
-        <li><a href="#">Parâmetros do sistema</a></li>
+        <li><a href="systemParams.php">Parâmetros do sistema</a></li>
         <li><a href="#">Avaliar/Movimentar tickets</a></li>
     </ul>
     <div class="content">
