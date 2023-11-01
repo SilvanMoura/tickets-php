@@ -65,7 +65,7 @@ if(isset($_POST['name']) && isset($_POST['password']) && !isset($_POST['email'])
                 <div class="card-body" id="registerBody" style="display: none;">
                     <form method="post">
                         <div class="form-group">
-                            <label for="nome">Nome:</label>
+                            <label for="name">Nome:</label>
                             <input type="text" class="form-control" name="name" required>
                         </div>
                         <div class="form-group">
@@ -73,7 +73,7 @@ if(isset($_POST['name']) && isset($_POST['password']) && !isset($_POST['email'])
                             <input type="email" class="form-control" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="senha">Senha:</label>
+                            <label for="password">Senha:</label>
                             <input type="password" class="form-control" name="password" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Cadastrar</button>

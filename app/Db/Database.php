@@ -116,7 +116,6 @@ class Database{
 
     //MONTA A QUERY
     $query = 'SELECT '.$fields.' FROM '.$this->table.' '.$where.' '.$order.' '.$limit;
-
     //EXECUTA A QUERY
     $result = $this->execute($query);
     $data = $result->fetchAll(PDO::FETCH_ASSOC);

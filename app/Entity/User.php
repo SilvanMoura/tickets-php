@@ -5,7 +5,8 @@ namespace App\Entity;
 use \App\Db\Database;
 use \PDO;
 
-class User{
+class User
+{
 
   /**
    * Identificador único da vaga
@@ -44,29 +45,44 @@ class User{
   public $userType;
 
   /**
+   * Tipo do usuario
+   * @var integer
+   */
+  public $creatorId;
+
+  /**
    * Método responsável por cadastrar uma nova vaga no banco
    * @return boolean
    */
-  public function register(){
+  public function register()
+  {
+    list($username, $domain) = explode("@", $this->email);
+    $where = "domain LIKE '%$domain%'";
 
-    //INSERIR A VAGA NO BANCO
-    $obDatabase = new Database('users');
-    $this->id = $obDatabase->insert([
-                                      'name'        => $this->name,
-                                      'email'       => $this->email,
-                                      'password'    => $this->password,
-                                      'status'      => $this->status,
-                                      'user_type'   => $this->userType,
-                                    ]);
-    //RETORNAR SUCESSO
-    return true;
+    $obDatabase = new Database('domains');
+    $pdoStatement = $obDatabase->select($where, null, null, 'domain');
+    if(!empty($pdoStatement)){
+      //INSERIR A VAGA NO BANCO
+      die();
+      $obDatabase = new Database('users');
+      $this->id = $obDatabase->insert([
+        'name'        => $this->name,
+        'email'       => $this->email,
+        'password'    => $this->password,
+        'status'      => $this->status,
+        'user_type'   => $this->userType,
+      ]);
+      //RETORNAR SUCESSO
+      return true;
+    }
   }
 
   /**
    * Método responsável por fazer o usuario logar
    * @return boolean
    */
-  public function login(){
+  public function login()
+  {
 
     // INSERIR A USUÁRIO NO BANCO
     $obDatabase = new Database('users');
@@ -74,16 +90,15 @@ class User{
     $where = "name = '{$this->name}' AND password = '{$this->password}'";
     $data = $obDatabase->select($where, null, null, $fields);
     $data = $data[0];
-    
-    if($data['id']){
+
+    if ($data['id']) {
       session_start();
       $_SESSION['id_usuario'] = $data['id'];
       $_SESSION['name_usuario'] = $data['name'];
       $_SESSION['type_usuario'] = $data['user_type'];
       return true; // Logado com sucesso
-    }else {
+    } else {
       return false; // Falha no login
     }
   }
-  
 }
